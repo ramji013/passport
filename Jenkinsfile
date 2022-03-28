@@ -29,6 +29,24 @@ pipeline{
             }
           }  
      
+     stage('Deploy to artifactory'){
+        steps{
+           script{
+              last_started=env.STAGE_NAME
+            }
+        rtUpload(
+         serverId : 'artifactory-pipeline',
+         spec :'''{
+           "files" :[
+           {
+           "pattern":"target/*.jar",
+           "target":"maven-dev-v1/folder1/"
+           }
+           ]
+         }''')
+        }
+     }
+     
   }
         post {  
          always {  
